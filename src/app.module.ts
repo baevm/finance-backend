@@ -31,6 +31,6 @@ import { Transaction } from './wallet/transaction.model'
     UserModule,
   ],
   controllers: [AuthController, WalletController, UserController],
-  providers: [AuthService, WalletService, UserService],
+  providers: [],
 })
 export class AppModule {}

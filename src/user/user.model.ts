@@ -10,6 +10,7 @@ interface UserCreate {
 export class User extends Model<User, UserCreate> {
   @Column({
     type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     unique: true,
     primaryKey: true,
     allowNull: false,
@@ -26,7 +27,7 @@ export class User extends Model<User, UserCreate> {
   hashedRt?: string
 
   @HasMany(() => Wallet)
-  wallets: Wallet[]
+  wallets?: Wallet[]
 
   @CreatedAt
   @Column({ field: 'created_at' })

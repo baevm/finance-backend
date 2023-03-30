@@ -5,6 +5,7 @@ import { Wallet } from './wallet.model'
 export class Transaction extends Model<Transaction> {
   @Column({
     type: DataType.UUID,
+    defaultValue: DataType.UUID,
     unique: true,
     primaryKey: true,
     allowNull: false,

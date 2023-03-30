@@ -6,6 +6,7 @@ module.exports = {
     await queryInterface.createTable('user', {
       id: {
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         unique: true,
         primaryKey: true,
         allowNull: false,
@@ -36,6 +37,7 @@ module.exports = {
     await queryInterface.createTable('wallet', {
       id: {
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         unique: true,
         primaryKey: true,
         allowNull: false,
@@ -61,6 +63,7 @@ module.exports = {
     await queryInterface.createTable('transaction', {
       id: {
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         unique: true,
         primaryKey: true,
         allowNull: false,

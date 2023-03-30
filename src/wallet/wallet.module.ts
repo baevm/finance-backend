@@ -6,9 +6,9 @@ import { Wallet } from './wallet.model'
 import { WalletService } from './wallet.service'
 
 @Module({
-  controllers: [WalletController],
-  imports: [SequelizeModule.forFeature([Wallet, Transaction])],
   providers: [WalletService],
-  exports: [],
+  controllers: [WalletController],
+  exports: [WalletService],
+  imports: [SequelizeModule.forFeature([Wallet, Transaction])],
 })
 export class WalletModule {}
