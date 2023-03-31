@@ -68,6 +68,10 @@ module.exports = {
         primaryKey: true,
         allowNull: false,
       },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       amount: {
         type: Sequelize.FLOAT,
         allowNull: false,

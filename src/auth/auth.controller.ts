@@ -2,7 +2,7 @@ import { Body, Controller, Post, Res } from '@nestjs/common'
 import { HttpCode, UseGuards } from '@nestjs/common/decorators'
 import { HttpStatus } from '@nestjs/common/enums'
 import { Response } from 'express'
-import { GetCurrentUser } from 'src/common/decorators/get-current-user.decorator'
+import { CurrUser, GetCurrentUser } from 'src/common/decorators/get-current-user.decorator'
 import { GetCurrentUserId } from 'src/common/decorators/get-current-userId.decorator'
 import { Public } from 'src/common/decorators/public.decorator'
 import { ACCESS_TOKEN, HALF_HOUR, REFRESH_TOKEN, SEVEN_DAYS } from 'src/common/token.const'
@@ -47,7 +47,7 @@ export class AuthController {
 
   @UseGuards(RtGuard)
   @Post('/refresh')
-  async refreshToken(@GetCurrentUser() user: any, @Res({ passthrough: true }) res: Response) {
+  async refreshToken(@GetCurrentUser() user: CurrUser, @Res({ passthrough: true }) res: Response) {
     const tokens = await this.authService.refreshToken(user.sub, user.refreshToken)
 
     res.cookie(ACCESS_TOKEN, tokens.accessToken, {
@@ -79,7 +79,7 @@ export class AuthController {
       sameSite: 'none',
       domain: 'localhost',
     })
-    
+
     res.cookie(REFRESH_TOKEN, '', {
       secure: false,
       httpOnly: true,

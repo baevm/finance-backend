@@ -16,7 +16,7 @@ import { Transaction } from './transaction.model'
 export class Wallet extends Model<Wallet> {
   @Column({
     type: DataType.UUID,
-    defaultValue: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     unique: true,
     primaryKey: true,
     allowNull: false,
