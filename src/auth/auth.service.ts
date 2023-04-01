@@ -4,7 +4,7 @@ import { AuthDto } from './dto/auth.dto'
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt/dist'
 import { Tokens } from './types/tokens.type'
-import { HALF_HOUR, SEVEN_DAYS } from 'src/common/token.const'
+import { HALF_HOUR, ONE_DAY } from 'src/common/token.const'
 
 @Injectable()
 export class AuthService {
@@ -72,7 +72,7 @@ export class AuthService {
   async generateTokens(userId: string, username: string): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync({ sub: userId, username }, { secret: 'superSecretAt', expiresIn: HALF_HOUR }),
-      this.jwtService.signAsync({ sub: userId, username }, { secret: 'superSecretRt', expiresIn: SEVEN_DAYS }),
+      this.jwtService.signAsync({ sub: userId, username }, { secret: 'superSecretRt', expiresIn: ONE_DAY }),
     ])
 
     return { accessToken, refreshToken }

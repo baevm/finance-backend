@@ -6,6 +6,10 @@ import { User } from './user.model'
 export class UserService {
   constructor(@InjectModel(User) private userRepository: typeof User) {}
 
+  async getMe(id: string) {
+    return this.userRepository.findOne({ where: { id }, attributes: { exclude: ['password', 'hashedRt'] } })
+  }
+
   async findByUsername(username: string) {
     return this.userRepository.findOne({ where: { username } })
   }

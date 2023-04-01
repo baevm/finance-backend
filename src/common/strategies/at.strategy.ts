@@ -7,7 +7,6 @@ type JwtPayload = {
   sub: string
   username: string
 }
-
 const cookieExtractFromRequest = (req: any) => {
   let token = null
   if (req && req.cookies) {
