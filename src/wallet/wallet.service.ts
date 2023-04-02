@@ -15,11 +15,21 @@ export class WalletService {
   ) {}
 
   async getWallets(userId: string) {
-    return this.walletRepository.findAll({ where: { userId } })
+    return this.walletRepository.findAll({ where: { userId }, order: [['created_at', 'DESC']] })
+  }
+
+  async getWallet(walletId: string, userId: string) {
+    const wallet = await this.walletRepository.findOne({ where: { id: walletId, userId } })
+
+    if (!wallet) {
+      throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
+    }
+
+    return wallet
   }
 
   async getTransactions(userId: string, walletDto: WalletPageDto, operation_type: OperationType) {
-    const wallet = await this.walletRepository.findOne({ where: { id: walletDto.walletId, userId } })
+    const wallet = await this.walletRepository.findOne({ where: { id: walletDto.id, userId } })
 
     if (!wallet) {
       throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
@@ -35,6 +45,26 @@ export class WalletService {
 
   async createWallet(dto: CreateWalletDto, userId: string) {
     return this.walletRepository.create({ title: dto.title, userId })
+  }
+
+  async updateWallet(walletId: string, title: string, userId: string) {
+    const wallet = await this.walletRepository.findOne({ where: { id: walletId, userId } })
+
+    if (!wallet) {
+      throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
+    }
+
+    return wallet.update({ title })
+  }
+
+  async deleteWallet(walletId: string, userId: string) {
+    const wallet = await this.walletRepository.findOne({ where: { id: walletId, userId } })
+
+    if (!wallet) {
+      throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
+    }
+
+    return wallet.destroy()
   }
 
   async createTransaction(transactionDto: CreateTransactionDto, userId: string) {
@@ -62,5 +92,15 @@ export class WalletService {
     }
 
     return { transaction, balance: newBalance }
+  }
+
+  async deleteTransaction(id: string) {
+    const transaction = await this.transactionRepository.findOne({ where: { id } })
+
+    if (!transaction) {
+      throw new HttpException({ message: 'Операция не найдена' }, HttpStatus.BAD_REQUEST)
+    }
+
+    return transaction.destroy()
   }
 }
