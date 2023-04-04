@@ -10,6 +10,8 @@ services:
       POSTGRES_DB: finance-db
     ports:
       - 5432:5432
+    networks:
+      - postgres
     restart: unless-stopped
 
   pgadmin:
@@ -23,6 +25,21 @@ services:
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
+      - postgres
+    restart: unless-stopped
+
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_HOST=postgres
+    ports:
+      - 5000:5000
+    networks:
+      - postgres
+    depends_on:
       - postgres
     restart: unless-stopped
 

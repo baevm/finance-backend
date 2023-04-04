@@ -6,6 +6,7 @@ import { CurrUser, GetCurrentUser } from 'src/common/decorators/get-current-user
 import { CreateTransactionDto } from './dto/create-transaction.dto'
 import { CreateWalletDto } from './dto/create-wallet.dto'
 import { WalletService } from './wallet.service'
+import { TransactionDto, UpdateTransactionDto } from './dto/update-transaction.dto'
 
 @UseGuards(AtGuard)
 @Controller('wallet')
@@ -19,7 +20,6 @@ export class WalletController {
 
   @Get('/:id')
   getWallet(@Param('id') id: string, @GetCurrentUser() user: CurrUser) {
-    console.log(id)
     return this.walletService.getWallet(id, user.sub)
   }
 
@@ -63,8 +63,13 @@ export class WalletController {
     return this.walletService.createTransaction(transactionDto, user.sub)
   }
 
+  @Post('/updateTransaction')
+  updateTransaction(@Body() body: UpdateTransactionDto, @GetCurrentUser() user: CurrUser) {
+    return this.walletService.updateTransaction(body, user.sub)
+  }
+
   @Post('/deleteTransaction')
-  deleteTransaction(@Body() body: { id: string }, @GetCurrentUser() user: CurrUser) {
-    return this.walletService.deleteTransaction(body.id)
+  deleteTransaction(@Body() body: TransactionDto, @GetCurrentUser() user: CurrUser) {
+    return this.walletService.deleteTransaction(body, user.sub)
   }
 }

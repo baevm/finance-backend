@@ -1,23 +1,24 @@
 import { Module } from '@nestjs/common'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { AuthController } from './auth/auth.controller'
-import { AuthService } from './auth/auth.service'
-import { WalletController } from './wallet/wallet.controller'
-import { WalletService } from './wallet/wallet.service'
-import { UserController } from './user/user.controller'
-import { UserService } from './user/user.service'
 import { AuthModule } from './auth/auth.module'
-import { WalletModule } from './wallet/wallet.module'
-import { UserModule } from './user/user.module'
-import { Wallet } from './wallet/wallet.model'
+import { UserController } from './user/user.controller'
 import { User } from './user/user.model'
+import { UserModule } from './user/user.module'
 import { Transaction } from './wallet/transaction.model'
+import { WalletController } from './wallet/wallet.controller'
+import { Wallet } from './wallet/wallet.model'
+import { WalletModule } from './wallet/wallet.module'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: `.env`,
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'localhost',
+      host: process.env.DATABASE_HOST,
       port: 5432,
       username: 'postgres',
       password: '123456',

@@ -6,6 +6,7 @@ import { Transaction } from './transaction.model'
 import { Wallet } from './wallet.model'
 import { WalletPageDto } from './dto/wallet-page.dto'
 import { OperationType } from './types/OperationType.type'
+import { TransactionDto, UpdateTransactionDto } from './dto/update-transaction.dto'
 
 @Injectable()
 export class WalletService {
@@ -94,8 +95,30 @@ export class WalletService {
     return { transaction, balance: newBalance }
   }
 
-  async deleteTransaction(id: string) {
-    const transaction = await this.transactionRepository.findOne({ where: { id } })
+  async updateTransaction(dto: UpdateTransactionDto, userId: string) {
+    const wallet = await this.walletRepository.findOne({ where: { id: dto.walletId, userId } })
+
+    if (!wallet) {
+      throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
+    }
+
+    const transaction = await this.transactionRepository.findOne({ where: { id: dto.id } })
+
+    if (!transaction) {
+      throw new HttpException({ message: 'Операция не найдена' }, HttpStatus.BAD_REQUEST)
+    }
+
+    return transaction.update({ title: dto.title })
+  }
+
+  async deleteTransaction(dto: TransactionDto, userId: string) {
+    const wallet = await this.walletRepository.findOne({ where: { id: dto.walletId, userId } })
+
+    if (!wallet) {
+      throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
+    }
+
+    const transaction = await this.transactionRepository.findOne({ where: { id: dto.id } })
 
     if (!transaction) {
       throw new HttpException({ message: 'Операция не найдена' }, HttpStatus.BAD_REQUEST)
