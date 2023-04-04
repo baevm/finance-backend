@@ -50,7 +50,7 @@ export class WalletController {
 
   @Post('/updateWallet')
   updateWallet(@Body() body: UpdateWalletDto, @GetCurrentUser() user: CurrUser) {
-    return this.walletService.updateWallet(body.walletId, body.walletId, user.sub)
+    return this.walletService.updateWallet(body, user.sub)
   }
 
   @Post('/deleteWallet')
@@ -59,8 +59,8 @@ export class WalletController {
   }
 
   @Post('/createTransaction')
-  createTransaction(@Body() transactionDto: CreateTransactionDto, @GetCurrentUser() user: CurrUser) {
-    return this.walletService.createTransaction(transactionDto, user.sub)
+  createTransaction(@Body() body: CreateTransactionDto, @GetCurrentUser() user: CurrUser) {
+    return this.walletService.createTransaction(body, user.sub)
   }
 
   @Post('/updateTransaction')

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
-import { CreateWalletDto } from './dto/wallet.dto'
+import { CreateWalletDto, UpdateWalletDto } from './dto/wallet.dto'
 import { Transaction } from './transaction.model'
 import { Wallet } from './wallet.model'
 import { WalletPageDto } from './dto/wallet-page.dto'
@@ -48,14 +48,14 @@ export class WalletService {
     return this.walletRepository.create({ title: dto.title, userId })
   }
 
-  async updateWallet(walletId: string, title: string, userId: string) {
-    const wallet = await this.walletRepository.findOne({ where: { id: walletId, userId } })
+  async updateWallet(dto: UpdateWalletDto, userId: string) {
+    const wallet = await this.walletRepository.findOne({ where: { id: dto.walletId, userId } })
 
     if (!wallet) {
       throw new HttpException({ message: 'Кошелек не найден' }, HttpStatus.BAD_REQUEST)
     }
 
-    return wallet.update({ title })
+    return wallet.update({ title: dto.title })
   }
 
   async deleteWallet(walletId: string, userId: string) {
