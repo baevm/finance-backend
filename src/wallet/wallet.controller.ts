@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator'
 import { AtGuard } from 'src/auth/guards/at.guard'
 import { CurrUser, GetCurrentUser } from 'src/common/decorators/get-current-user.decorator'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
-import { CreateWalletDto } from './dto/create-wallet.dto'
+import { CreateWalletDto, UpdateWalletDto, WalletDto } from './dto/wallet.dto'
 import { WalletService } from './wallet.service'
 import { TransactionDto, UpdateTransactionDto } from './dto/update-transaction.dto'
 
@@ -49,12 +49,12 @@ export class WalletController {
   }
 
   @Post('/updateWallet')
-  updateWallet(@Body() body: { walletId: string; title: string }, @GetCurrentUser() user: CurrUser) {
-    return this.walletService.updateWallet(body.walletId, body.title, user.sub)
+  updateWallet(@Body() body: UpdateWalletDto, @GetCurrentUser() user: CurrUser) {
+    return this.walletService.updateWallet(body.walletId, body.walletId, user.sub)
   }
 
   @Post('/deleteWallet')
-  deleteWallet(@Body() body: { walletId: string }, @GetCurrentUser() user: CurrUser) {
+  deleteWallet(@Body() body: WalletDto, @GetCurrentUser() user: CurrUser) {
     return this.walletService.deleteWallet(body.walletId, user.sub)
   }
 

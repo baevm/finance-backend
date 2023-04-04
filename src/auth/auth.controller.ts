@@ -1,15 +1,14 @@
-import { Body, Controller, HttpException, Post, Res } from '@nestjs/common'
+import { Body, Controller, Post, Res } from '@nestjs/common'
 import { HttpCode, UseGuards } from '@nestjs/common/decorators'
 import { HttpStatus } from '@nestjs/common/enums'
 import { Response } from 'express'
 import { CurrUser, GetCurrentUser } from 'src/common/decorators/get-current-user.decorator'
 import { GetCurrentUserId } from 'src/common/decorators/get-current-userId.decorator'
 import { Public } from 'src/common/decorators/public.decorator'
-import { ACCESS_TOKEN, HALF_HOUR, REFRESH_TOKEN } from 'src/common/token.const'
+import { ACCESS_TOKEN, HALF_HOUR, ONE_DAY, REFRESH_TOKEN } from 'src/common/token.const'
 import { AuthService } from './auth.service'
 import { AuthDto } from './dto/auth.dto'
 import { RtGuard } from './guards/rt.guard'
-import { ONE_DAY } from 'src/common/token.const'
 
 @Controller('auth')
 export class AuthController {

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
-import { CreateWalletDto } from './dto/create-wallet.dto'
+import { CreateWalletDto } from './dto/wallet.dto'
 import { Transaction } from './transaction.model'
 import { Wallet } from './wallet.model'
 import { WalletPageDto } from './dto/wallet-page.dto'
