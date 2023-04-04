@@ -76,6 +76,12 @@ export class WalletService {
     }
 
     const currentBalance = wallet.balance
+
+    // Проверить количество денег на счете при операции Расход
+    if (transactionDto.operation_type === 'EXPENSE' && currentBalance - transactionDto.amount < 0) {
+      throw new HttpException({ message: 'Недостаточно средств на счете' }, HttpStatus.BAD_REQUEST)
+    }
+
     const transaction = await this.transactionRepository.create(transactionDto)
     let newBalance
 
@@ -84,11 +90,6 @@ export class WalletService {
       await wallet.update({ balance: newBalance })
     } else {
       newBalance = currentBalance - transactionDto.amount
-
-      if (newBalance < 0) {
-        throw new HttpException({ message: 'Недостаточно средств на счете' }, HttpStatus.BAD_REQUEST)
-      }
-
       await wallet.update({ balance: newBalance })
     }
 
